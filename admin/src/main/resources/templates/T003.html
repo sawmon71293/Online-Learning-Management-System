@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <div th:replace="TECFRG :: head"></div>
+    <title>Batch Details</title>
+    <style>
+      /* Chrome, Safari, Edge, Opera */
+      input::-webkit-outer-spin-button,
+      input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+              }
+
+      /* Firefox */
+      input[type=number] {
+        -moz-appearance: textfield;
+      }
+    </style>
+
+  </head>
+
+  <body style="background-color: rgb(235, 235, 235);">
+  <header th:replace="TECFRG :: header"></header>
+  <main role="main">
+    <div th:replace="fragments-teacher/T003 :: batchdetails"></div>
+  </main>
+  <footer th:replace="TECFRG :: footer"></footer>
+  <div th:replace="TECFRG:: scripts"></div>
+  <script th:src="@{/assets/js/teacher-batch-detail.js}"></script>
+
+    <!-- Confirm Box-->
+    <script>
+      $(document).on("click",'a.remove-customChapter',function(){
+        window.customChapterId=$(this).attr('id');
+        batchId = $(this).closest('tr').find('input[name="batchId"]').val();
+        $('a.remove-customChapter').confirm({
+          closeIcon: true,
+          theme: 'Material',
+          //icon: 'fa-solid fa-warning',
+  
+          title: 'Remove Custom Activity!',
+          content: 'Are you sure to remove?',
+          animation: 'Scale',
+          buttons: {           
+            No: function () {},
+            Yes: function () {        
+              // /admin/course/chapter/chapterFile/delete(customChapter=${chapterFile.id},chapterId=${chapterId})      
+              window.location = "/teacher/batch/deleteCustomChapter?customChapterId="+customChapterId+"&batchId="+batchId;
+            },
+          },
+        })
+
+
+      })
+      $(document).ready(function () {
+       
+        showExamTable();//selected by default
+        $('#selectBoxForExamAnsAssignment').on('change',function(){
+          (this.value == 0)? showExamTable() : showAssignmentTable();
+        })
+
+        function showExamTable(){
+          $('#examMarkTable').show();
+          $('#assignmentMarkTable').hide();
+        }
+        function showAssignmentTable(){
+          $('#assignmentMarkTable').show();
+          $('#examMarkTable').hide();
+        }
+        
+        // For Classroom Delete confirm
+        $('a.remove-classroom').on('click', function () {
+          window.class_id = $(this).attr('id')
+        });
+        $('a.remove-classroom').confirm({
+          closeIcon: true,
+          theme: 'Material',
+          //icon: 'fa-solid fa-warning',
+
+          title: 'Remove Classroom!',
+          content: 'Are you sure to remove this classroom?',
+          animation: 'Scale',
+          buttons: {            
+            No: function () {},
+            Yes: function () {
+              window.location='/teacher/batch/deleteClassroom/'+class_id;
+            },
+          },
+        });
+      })
+
+    </script>
+  </body>
+</html>

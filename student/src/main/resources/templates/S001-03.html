@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <div th:replace="STUFRG :: head"></div>
+  <link rel="stylesheet" href="../assets/css/assignment.css" />
+  <title>Student Assignment View</title>
+</head>
+<body class="body-color">
+  <header th:replace="STUFRG :: header"></header>
+  <main role="main">
+    <div th:replace="fragments/S001-03 :: student-assignment"></div>
+  </main>
+  <footer th:replace="STUFRG :: footer"></footer>
+  <div th:replace="STUFRG :: scripts"></div>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <div th:replace="ADMFRG :: head"></div>
+  <title>Edit Teacher</title>
+</head>
+
+<body style="background-color: rgb(235, 235, 235);">
+  <header th:replace="ADMFRG :: header"></header>
+  <main role="main">
+    <div th:replace="fragments/A004-02 :: edit-teacher"></div>
+  </main>
+  <footer th:replace="ADMFRG :: footer"></footer>
+  <div th:replace="ADMFRG :: scripts"></div>
+  <script src="../assets/js/data.js"></script>
+  <script type="text/javascript" charset="utf8"
+    src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
+
+  <script>
+    $(document).ready(function () {
+      $('#file').change(function () {
+        showImageThumbnail(this);
+      });
+    })
+    function showImageThumbnail(fileInput) {
+      file = fileInput.files[0];
+      reader = new FileReader();
+      reader.onload = function (e) {
+        $('#teacherimage').attr('src', e.target.result);
+        image = e.target.result;
+      };
+      reader.readAsDataURL(file);
+      $('#teacherimage').attr('src', image);
+    }
+  </script>
+</body>
+
+</html>

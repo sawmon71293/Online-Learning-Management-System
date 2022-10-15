@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+  <title>Chapter Add</title>
+  <div th:replace="ADMFRG :: head"></div>
+</head>
+
+<body style="background-color: rgb(235, 235, 235);">
+ 
+  <header th:replace="ADMFRG :: header"></header>
+
+    <main>
+      <div th:replace="fragments/A002-02 :: chapter-add"></div>
+    </main>
+
+    <footer th:replace="ADMFRG :: footer"></footer>
+    <div th:replace="ADMFRG :: scripts"></div>
+
+    <script
+    type="text/javascript"
+    charset="utf8"
+    src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"
+  ></script>
+  <script th:src="@{/assets/js/data.js}"></script>
+  
+
+</body>
+
+</html>

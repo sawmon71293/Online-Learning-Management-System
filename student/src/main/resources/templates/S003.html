@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <div th:replace="STUFRG :: head"></div>
+  <title>ExamList</title>  
+</head>
+
+<body class="body-color">
+  <header th:replace="STUFRG :: header"></header>  
+  <main>
+    <div th:replace="fragments/S003 :: studentExamList"></div>
+  </main>
+  <footer th:replace="STUFRG :: footer"></footer>
+  <div th:replace="STUFRG:: scripts"></div>
+  <script>
+    // $(document).on('click','a .exam-confirm',function(e){
+    //   e.preventDefault();
+    $(document).ready(function () {
+      $(document).on("click",'a.exam-confirm', function(e){
+        e.preventDefault();
+        let link = $(this).attr("href");
+        $.confirm({
+        closeIcon: true,
+        theme: 'Material',
+        //icon: 'fa-solid fa-warning',
+
+        title: 'Exam will start now!',
+        content:
+          'When time is up, result will be auto saved. Are you sure to continue! ',
+        animation: 'Scale',
+        buttons: {          
+          No: function () { },
+          Yes: function () {
+            window.location = link;
+          },
+        },
+      })
+      })
+      
+    })
+
+      //})
+  </script>
+</body>
+
+</html>

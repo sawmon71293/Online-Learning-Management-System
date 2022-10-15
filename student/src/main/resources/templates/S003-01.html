@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <div th:replace="STUFRG :: head"></div>
+  <title>Exam</title>  
+</head>
+
+<body class="body-color">
+  <header th:replace="STUFRG :: header"></header>
+  <main>
+    <div th:replace="fragments/S003-01 :: studentExamForm"></div>
+  </main>
+  <footer th:replace="STUFRG :: footer"></footer>
+  <div th:replace="STUFRG:: scripts"></div>
+
+
+  <script>
+    //Exam countdown
+    var totalAmount = localStorage.getItem('countDown') || 0,
+      timeloop
+
+    if (totalAmount) {
+      timeSet()
+    }
+
+    function timeSet() {
+      totalAmount--
+      // Refresh value in localStorage
+      localStorage.setItem('countDown', totalAmount)
+
+      // If countdown is over, then remove value from storage and clear timeout
+      if (totalAmount < 0) {
+        localStorage.removeItem('countDown')
+        totalAmount = 0
+        clearTimeout(timeloop)
+        
+        $.confirm({
+          title: 'End Exam',
+            content: 'Your time is out, your answers will be automatically saved',
+            autoClose: 'Ok|5000',
+            buttons: {
+                Ok: {
+                    text: 'Okay',
+                    action: function () {
+                      $('#examForm').submit()
+                    },               
+            }}
+        });
+        return
+      }
+
+      var hour = parseInt(totalAmount / 3600)
+      var minutes = parseInt((totalAmount % 3600) / 60)
+      var seconds = parseInt((totalAmount % 3660) % 60)
+
+      if (seconds < 10) seconds = '0' + seconds
+      if (minutes < 10) minutes = '0' + minutes
+
+      $('#count-time').text(hour + ':' + minutes + ':' + seconds)
+
+      timeloop = setTimeout(timeSet, 1000)
+    }
+
+    $(document).ready(function () {
+      var reqVal = $("#examDuration").val();
+      var arr = reqVal.split(":")
+      var totalSec = parseInt(arr[0])*3600 + parseInt(arr[1])*60;
+      var parAmt;
+      // count down
+      if(localStorage.getItem('countDown')){
+         parAmt = localStorage.getItem('countDown');
+      }
+      else{
+         parAmt = parseInt(totalSec)
+      }
+      if (timeloop) {
+        clearTimeout(timeloop)
+      }
+      totalAmount = parAmt
+      $("#examDuration").val("");
+      timeSet()
+    })
+
+    $('#examForm').on('submit', function () {
+      totalAmount = 0
+      clearTimeout(timeloop)
+      localStorage.removeItem('countDown')
+    })
+
+    //Confirm box for exam form submit 
+    $("#submitButton").on("click", function(e){
+      e.preventDefault();
+      $.confirm({
+          title: 'SUBMIT ANSWER!',
+            content: 'All of your answers will be saved.',
+            autoClose: 'Ok|6000',
+            buttons: {
+                Cancel:{},
+                Ok: {
+                    text: 'Okay',
+                    action: function () {
+                      $('#examForm').submit()
+                    },               
+            }}
+        });
+    })
+  </script>
+</body>
+
+</html>

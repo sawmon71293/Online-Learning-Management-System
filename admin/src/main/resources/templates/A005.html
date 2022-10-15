@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+    <head>
+        <div th:replace="ADMFRG :: head"></div>
+        <title>Admin Profile</title>
+        <link rel="stylesheet" type="text/css" href="/assets/css/profile.css">
+    </head>
+
+<body class="body-color">
+<header th:replace="ADMFRG :: header"></header>
+<main role="main">
+    <div th:replace="fragments/A005 :: admin-profile"></div>
+</main>
+<!-- <footer th:replace="ADMFRG :: footer"></footer> -->
+<div th:replace="ADMFRG :: scripts"></div>
+<script>
+    img_input =document.querySelector("#img-input");
+    img_input.onchange=function (e){
+        if(e.target.files.length >0){
+            src= URL.createObjectURL(e.target.files[0]);
+            image=document.querySelector(".image-container img");
+            image.src=src;
+
+        }
+    }
+</script>
+</body>
+
+</html>

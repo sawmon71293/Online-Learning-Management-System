@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error</title>
+    <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../assets/css/error-page.css">
+    <style>
+        .errorPage {
+            display: flex;
+            justify-content:center ;
+            align-items: center;
+             }
+    </style>
+</head>
+<body>
+
+    <div id="header">
+        
+    </div>
+
+    <section class="errorPage" >
+        <div class="container" id="error">
+            <div class="error-card">
+                <div class="row ms-5" >
+                    <div class="col error-title"
+                         th:with="httpStatus=${T(org.springframework.http.HttpStatus).valueOf(#response.status)}">
+                        <h2>Sorry !</h2>
+                        <div class="alert alert-danger" role="alert">
+                            <h3 th:text="|${httpStatus}|"></h3>
+<!--                            <p th:text="${errorMessage}"></p>-->
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row ms-5">
+                    <div class="error-content">
+                        <embed class="error-pict" src="/assets/img/error.svg" style="width: 300px;"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    
+    <script src="../assets/js/jquery.min.js"></script>
+    <script>
+        $('#header').load('../header.html')
+    </script>
+</body>
+</html>

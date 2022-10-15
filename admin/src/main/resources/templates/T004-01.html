@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <div th:replace="TECFRG :: head"></div>
+    <title>Classroom Edit</title>
+    <link
+    href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css"
+    rel="stylesheet"
+  />
+  </head>
+
+  <body style="background-color: rgb(235, 235, 235);">
+    <header th:replace="TECFRG :: header"></header>
+    <main role="main">
+      <div th:replace="fragments-teacher/T004-01 :: classroom-edit"></div>
+    </main>
+   <footer th:replace="TECFRG :: footer"></footer>
+   <div th:replace="TECFRG :: scripts"></div>
+  </body>   
+
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js"
+    ></script>   
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
+    <script>
+      // $(document).ready(function () {
+      //   $("#start-time").timepicker({
+      //     format: "h:mm p",          
+      //   });
+      //   $("#end-time").timepicker({
+      //     format: "h:mm p",          
+      //   });
+      // });
+      function changeTime() {
+        let start = $("#start-time").val();
+        let end = $("#end-time").val();
+        let teacherId = $("#teacherId").val();
+        let date = $("#date").val();
+        let link = $("#link").val();
+        console.log(
+          "teacher id:" + teacherId + ":date:" + date + ":link:" + link
+        );
+        if (start >= end) {
+          $.alert("Start time can't be bigger or equal to the end time");
+        } else if (date == "" || link == "") {
+          $.alert("Fill out all the fields!");
+        } else if (teacherId == 0) {
+          $.alert("Add teacher to this batch first!");
+        } else if (
+          link.indexOf("http://") == 0 ||
+          link.indexOf("https://") == 0
+        ) {         
+          $("#classroomForm").submit();
+        } else {
+          $.alert("Enter a valid URL!");
+        }
+      }
+    </script>
+</html>

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en" th:replace="~{layouts/main :: layout(~{::main})}" xmlns:th="http://www.thymeleaf.org" xmlns:batch>
+
+<body>
+  <main role="main">
+    <div th:fragment="teacher-home">
+      <div class="semi-circle"></div>
+      <div class="d-flex flex-column">
+        <div class="form-group" style="height: auto; width: auto; margin-bottom: 0px">
+          <div class="banner">
+            <div class="circle">
+              <i class="fa-solid fa-people-group"></i>
+            </div>
+            <div>
+              <h1>Batches</h1>
+              <h3>Total: <span th:text="${totalBatch}"></span></h3>
+            </div>
+          </div>
+        </div>
+        <div class="cards form-group custom-div1" style="
+              height: auto;
+              width: 90%;
+              justify-content: left;
+              margin-top: 0px;
+            ">
+          <div th:each=" batch : ${batchStudentList} ">
+            <a th:href="@{/teacher/batch/batchSeeMore(batchId=${batch.batchId},radio=1)}" class="unit-a">
+              <div class="card-single-teacher">
+                <div>
+                  <h1 th:text="${batch.batchName}"></h1>
+                </div>
+
+                <div class="card-link">
+                  <i class="fa-solid fa-people-group" style="color: white"></i>
+                  <span id="num" style="color: white" th:text="${batch.studentCount}">10</span>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+        <div class="charts custom-div d-flex flex-column" style="width: 90%">
+          <div class="col-sm-4 mt-5 ms-5">
+            <h3 class="text-muted">Current Batch</h3>
+            <select name="" id="batch" class="form-control">
+              <option th:each="batch : ${batchList}" th:value="${batch.id}" th:text="${batch.name}"></option>
+            </select>
+          </div>
+          <div style="margin: 50px">
+            <div id="graficoSituacoesPedidos" class="container2" style="width: 900px;">
+              <canvas id="myChart" style="max-width:70%; width:40% ; height: 170px;"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <div class="charts custom-div d-flex flex-column" style="width: 90%">
+          <div class="col-sm-4 mt-5 ms-5">
+            <h3 class="text-muted"  th:text="${batchName}">Current Batch</h3>
+            <select id="examAndComment" class="form-control">
+              <option value="" disabled selected>Select Batch</option>
+              <option th:each="batch : ${batchList}" th:value="${batch.id}" th:text="${batch.name}" th:id="${batch.id}">
+              </option>
+            </select>
+          </div>
+          <div style="margin: 50px">
+            <div class="mytabs">
+              <input type="radio" id="tabmarks" name="mytabs" checked />
+              <label for="tabmarks" id="lab">Marks</label>
+              <div class="tab">
+                <div class="mt-3 mb-4 d-flex justify-content-between">
+                  <div class="">
+                    <select class="form-control mt-2" name="selectBoxForExamAnsAssignment"
+                      id="selectBoxForExamAnsAssignment">
+                      <option value="0" selected>Exam</option>
+                      <option value="1">Assignment</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="table-responsive p-2" id="examMarkTable">
+                  <table id="assignmentDataTable" class="hover">
+                    <thead>
+                      <tr>
+                        <th>Name</th>
+                        <th th:each="studentName : ${allStudent}" th:text="${studentName.name}"></th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr th:if="${allStudent != null}" th:each="studentExamMarkList : ${studentExamMarkList}">
+                        <td th:text="${studentExamMarkList.exam.name}"></td>
+                        <td th:each="student : ${studentExamMarkList.studentData}"
+                          th:text="${student.mark}+'/'+${studentExamMarkList.exam.maxMark}"></td>
+                        <td>
+                          <a th:href="@{/teacher/batch/batchSeeMore(batchId=${studentExamMarkList.batchId},radio='mark')}" class="btn btn-outline-primary btn-floating" data-mdb-ripple-color="dark">
+                            Go to Marks<ion-icon name="arrow-forward-circle-outline"></ion-icon>
+                          </a>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="table-responsive p-2" id="assignmentMarkTable">
+                  
+                  <table id="datatable" class="hover">
+                    <thead>
+                      <tr>
+                        <th>Name</th>
+                        <th th:each="studentName : ${allStudent}" th:text="${studentName.name}"></th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr th:if="${allStudent != null}" th:each="studentAssignmentMarkList : ${studentAssignmentMarkList}">
+                        <td th:text="${studentAssignmentMarkList.assignment.name}"></td>
+                        <td th:each="studentData : ${studentAssignmentMarkList.studentData}"
+                          th:text="${studentData.mark}"></td>
+                        <td>
+                          <a th:href="@{/teacher/batch/batchSeeMore(batchId=${studentAssignmentMarkList.batchId},radio='mark')}" class="btn btn-outline-primary btn-floating" data-mdb-ripple-color="dark">
+                            Go to Marks<ion-icon name="arrow-forward-circle-outline"></ion-icon>
+                          </a>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <input type="radio" id="tabcomment" name="mytabs" />
+              <label for="tabcomment" id="lab">Comment</label>
+              <div class="tab">
+                <div th:each="comment : ${teacherCommentDTOList}" class="card" style="
+                      background-color: lavenderblush;
+                      border-radius: 18px;
+                      margin-bottom: 2rem;
+                    ">
+                  <h5 class="card-header" th:text="${comment.location}"></h5>
+                  <div class="card-body">
+                    <h5 class="card-title" th:text="${comment.commenter_Name}"></h5>
+                    <p class="card-text" th:text="${comment.text}"></p>
+                    <a th:href="@{/teacher/batch/batchSeeMore(batchId=${comment.batchId},radio='comment')}" class="btn btn-outline-primary btn-floating" data-mdb-ripple-color="dark">
+                      Go to Comments
+                      <ion-icon name="arrow-forward-circle-outline"></ion-icon>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</body>
+
+</html>

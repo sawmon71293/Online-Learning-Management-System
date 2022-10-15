@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <div th:replace="ADMFRG :: head"></div>
+    <title>Classroom Edit</title>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css">
+  </head>
+
+  <body style="background-color: rgb(235, 235, 235);">
+    <header th:replace="ADMFRG :: header"></header>
+    <main role="main">
+      <div th:replace="fragments/A003-07 :: classroom-edit"></div>
+    </main>
+   <footer th:replace="ADMFRG :: footer"></footer>
+   <div th:replace="ADMFRG :: scripts"></div>
+  </body>
+  <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js"
+    ></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
+  <script>
+    function changeTime() {
+        let start = $("#start-time").val();
+        let end = $("#end-time").val();
+        let teacherId = $("#teacherId").val();
+        let date = $("#date").val();
+        let link = $("#link").val();
+        console.log(
+          "teacher id:" + teacherId + ":date:" + date + ":link:" + link
+        );
+        if (start >= end) {
+          $.alert("Start time can't be bigger or equal to the end time");
+        } else if (date == "" || link == "") {
+          $.alert("Fill out all the fields!");
+        } else if (teacherId == 0) {
+          $.alert("Add teacher to this batch first!");
+        } else if (
+          link.indexOf("http://") == 0 ||
+          link.indexOf("https://") == 0
+        ) {         
+          $("#classroomForm").submit();
+        } else {
+          $.alert("Enter a valid URL!");
+        }
+      }
+    </script>
+</html>

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <div th:replace="TECFRG :: head"></div>
+  <title>Home Page</title>
+</head>
+
+<body class="body-color">
+  <header th:replace="TECFRG :: header"></header>
+  <main role="main">
+    <div th:replace="fragments-teacher/T001 :: teacher-home"></div>
+  </main>
+  <footer th:replace="TECFRG :: footer"></footer>
+  <div th:replace="TECFRG:: scripts"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function () {
+      let batchId = document.getElementById("batch").value;
+      const colorListTwo = [
+    'rgba(236,107,86,0.4)', 'rgba(255,193,84,0.4)',
+    'rgba(71,179,156,0.4)', 'rgba(51,102,204,0.4)',
+    'rgba(220,57,18,0.4)', 'rgba(255,153,0,0.4)',
+    'rgba(16,150,24,0.4)', 'rgba(153,0,153,0.4)',
+    'rgba(0,153,198,0.4)', 'rgba(221,68,119,0.4)',
+    'rgba(102,170,0,0.4)', 'rgba(184,46,46,0.4)',
+    'rgba(49,99,149,0.4)', 'rgba(51,102,204,0.4)',
+    'rgba(153,68,153,0.4)', 'rgba(34,170,153,0.4)',
+    'rgba(170,170,17,0.4)', 'rgba(102,51,204,0.4)',
+    'rgba(230,115,0,0.4)', 'rgba(139,7,7,0.4)',
+    'rgba(101,16,103,0.4)', 'rgba(50,146,98,0.4)',
+    'rgba(85,116,166,0.4)', 'rgba(59,62,172,0.4)',
+    'rgba(183,115,34,0.4)', 'rgba(22,214,32,0.4)',
+    'rgba(185,19,131,0.4)', 'rgba(244,53,158,0.4)',
+    'rgba(156,89,53,0.4)', 'rgba(169,196,19,0.4)',
+    'rgba(42,119,141,0.4)', 'rgba(102,141,28,0.4)',
+    'rgba(190,164,19,0.4)', 'rgba(12,89,34,0.4)',
+    'rgba(116,52,17,0.4)'
+];
+      var studentName = [];
+      var attendence = [];
+      console.log(batchId);
+      document.getElementById("batch").addEventListener("change", () => {
+        // myChart.destroy();
+        batchId = document.getElementById("batch").value;
+        studentName = []
+        attendence = []
+        $('#myChart').remove();
+        $('#graficoSituacoesPedidos').append('<canvas id="myChart" style="max-width:70%; width:40% ; height: 170px;"></canvas>');
+        $.ajax({
+          url: "/admin/grap?batchId=" + batchId,
+          success: function (result) {
+            var batchId = [studentName, attendence, batchId];
+            console.log(result);
+            result.forEach((element) => {
+              studentName.push(element.stuName);
+              attendence.push(element.attendance);
+            });
+            // drawLineChart(studentName,attendence)
+            console.log(batchId);
+            console.log(studentName);
+            console.log(attendence);
+            const ctx = document.getElementById("myChart").getContext("2d");
+            const myChart = new Chart(ctx, {
+              type: "bar",
+              data: {
+                labels: studentName,
+                datasets: [
+                  {
+                    label: "Attend Count Per Student Data",
+                    data: attendence,
+                    backgroundColor: [...colorListTwo],
+                    borderColor: [
+                      'rgb(106, 204, 226)',
+                    ],
+                    borderWidth: 1,
+                  },
+                ],
+              },
+              options: {
+                scales: {
+                  x: {
+                    title: {
+                      display: true,
+                      text: 'Student Name',
+                      color: 'blue',
+                      font: { weight: 'bold' }
+                    }
+                  },
+                  y: {
+                    beginAtZero: true,
+                    title: {
+                      display: true,
+                      text: 'Student   Attendance',
+                      color: 'blue',
+                      font: { weight: 'bold' }
+                    }
+                  },
+                },
+              },
+            });
+          },
+        });
+
+      });
+      setTimeout(() => {
+        $.ajax({
+          url: "/admin/grap?batchId=" + batchId,
+          success: function (result) {
+            var batchId = [studentName, attendence, batchId];
+            console.log(result);
+            result.forEach((element) => {
+              studentName.push(element.stuName);
+              attendence.push(element.attendance);
+            });
+            // drawLineChart(studentName,attendence)
+            console.log(batchId);
+            console.log(studentName);
+            console.log(attendence);
+            const ctx = document.getElementById("myChart").getContext("2d");
+            const myChart = new Chart(ctx, {
+              type: "bar",
+              data: {
+                labels: studentName,
+                datasets: [
+                  {
+                    label: "Attend Count Per Student Data",
+                    data: attendence,
+                    backgroundColor: [...colorListTwo],
+                    borderColor: [
+                      'rgb(106, 204, 226)',
+                    ],
+                    borderWidth: 1,
+                  },
+                ],
+              },
+              options: {
+                scales: {
+                  x: {
+                    title: {
+                      display: true,
+                      text: 'Student Name',
+                      color: 'blue',
+                      font: { weight: 'bold' }
+                    }
+                  },
+                  y: {
+                    beginAtZero: true,
+                    title: {
+                      display: true,
+                      text: 'Student   Attendance',
+                      color: 'blue',
+                      font: { weight: 'bold' }
+                    }
+                  },
+                },
+              },
+            });
+          },
+        });
+
+      },10);
+    });
+  </script>
+
+
+  <script>
+    $(document).ready(function () {
+     let batchId = document.getElementById("examAndComment").addEventListener("change",()=>{
+      let batchId = document.getElementById("examAndComment").value;
+      console.log(batchId);
+      window.location = `http://localhost:8080/teacher/home/markAndComment?batchId=${batchId}`;
+     });
+    });
+
+    showExamTable();//selected by default
+        $('#selectBoxForExamAnsAssignment').on('change',function(){
+          (this.value == 0)? showExamTable() : showAssignmentTable();
+        })
+
+        function showExamTable(){
+          $('#examMarkTable').show();
+          $('#assignmentMarkTable').hide();
+        }
+        function showAssignmentTable(){
+          $('#assignmentMarkTable').show();
+          $('#examMarkTable').hide();
+        }
+
+  </script>
+
+</body>
+
+</html>

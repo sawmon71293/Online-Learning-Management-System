@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <div th:replace="STUFRG :: head"></div>
+  <title>Student Video</title>
+  <link rel="stylesheet" type="text/css" href="/assets/css/student-home.css" />
+  <!-- <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
+  <title>header</title>
+  <link rel="stylesheet" href="assets/css/html5-video.css" />
+  <link rel="stylesheet" href="assets/css/ml-video-1.css" />
+  <link rel="stylesheet" href="assets/css/ml-video.css" />
+  <link rel="stylesheet" href="assets/css/styles.css" />
+  <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="assets/fonts/font-awesome.min.css" />
+
+ 
+  <link rel="stylesheet" href="./assets/css/subject.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css"
+    integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="assets/css/header.css" />
+  <link rel="stylesheet" href="assets/css/main.css" /> -->
+  
+</head>
+
+<body class="body-color">
+  <header th:replace="STUFRG :: header"></header>
+
+    <main role="main">
+      <div th:replace="fragments/S001-02 :: student-video"></div>
+    </main>
+  <footer th:replace="STUFRG :: footer"></footer>
+  <div th:replace="STUFRG :: scripts"></div>
+
+
+  <!-- <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+  <script src="assets/js/Material-Text-Input.js"></script> -->
+  <script src="assets/js/ml-video.js"></script>
+</body>
+
+</html>

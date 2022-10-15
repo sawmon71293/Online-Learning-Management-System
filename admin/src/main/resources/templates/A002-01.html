@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <div th:replace="ADMFRG :: head"></div>
+    <title>Course List</title>
+  </head>
+
+  <body>
+    <header th:replace="ADMFRG :: header"></header>
+
+    <main>
+      <div th:replace="fragments/A002-01 :: course-list"></div>
+    </main>
+
+    <footer th:replace="ADMFRG :: footer"></footer>
+    <div th:replace="ADMFRG :: scripts"></div>
+
+    <script
+    type="text/javascript"
+    charset="utf8"
+    src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"
+  ></script>
+  <script th:src="@{/assets/js/data.js}"></script>
+    <!--Confirm for chapter delete-->
+    <script>
+      $(document).on("click",'a.delete-chapter',function(){
+        window.chapterId=$(this).attr('id');
+      })
+      $(document).ready(function () {
+
+        window.chapterId = $("#course-id-unique").val();
+
+
+        $('a.delete-chapter').confirm({
+          closeIcon: true,
+          theme: 'Material',
+          //icon: 'fa-solid fa-warning',
+  
+          title: 'Remove Chapter',
+          content: 'Are you sure?',
+          animation: 'Scale',
+          buttons: {          
+            No: function () {},
+            Yes: function () {        
+              // /admin/course/chapter/chapterFile/delete(chapterFileId=${chapterFile.id},chapterId=${chapterId})      
+              window.location = `/admin/course/chapter/delete?chapterId=`+chapterId;
+            },
+          },
+        });
+    //<!-- Confirm for exam delete -->
+
+      $(document).on("click",'a.delete-exam',function(){
+        window.examId=$(this).attr('id');
+        window.courseId = $("#course-id-unique").val();
+      })     
+        $("a.delete-exam").confirm({
+          closeIcon: true,
+          theme: "Material",
+          //icon: 'fa-solid fa-warning',
+          title: "Delete Exam",
+          content: "Are you sure to delete this exam?",
+          animation: "Scale",
+          buttons: {
+            No: function () {},
+            Yes: function () {
+              window.location = "/admin/course/exam-delete?id="+examId+"&courseId="+courseId;
+            },
+           
+          },
+        });
+        
+      });
+
+    </script>
+  </body>
+</html>
